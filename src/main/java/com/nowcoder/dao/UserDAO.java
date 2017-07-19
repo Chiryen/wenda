@@ -6,6 +6,10 @@ import org.apache.ibatis.annotations.*;
 /**
  * Created by John on 2017/5/13.
  */
+
+/**
+ * Created by John on 2017/5/13.
+ */
 @Mapper
 public interface UserDAO {
 
