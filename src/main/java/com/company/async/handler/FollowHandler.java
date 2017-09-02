@@ -7,6 +7,7 @@ import com.company.model.EntityType;
 import com.company.model.Message;
 import com.company.model.User;
 import com.company.service.MessageService;
+import com.company.service.QuestionService;
 import com.company.service.UserService;
 import com.company.util.WendaUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,9 @@ public class FollowHandler implements EventHandler {
     @Autowired
     UserService userService;
 
+    @Autowired
+    QuestionService questionService;
+
     @Override
     public void doHandle(EventModel model) {
         Message message = new Message();
@@ -37,9 +41,10 @@ public class FollowHandler implements EventHandler {
         User user = userService.getUser(model.getActorId());
 
         if (model.getEntityType() == EntityType.ENTITY_QUESTION) {
-            message.setContent("用戶" + user.getName() + "关注了你的问题，http://127.0.0.1:8080/question/" + model.getEntityId());
+            //message.setContent("用戶" + user.getName() + "关注了你的问题，http://127.0.0.1:8080/question/" + model.getEntityId());
+            message.setContent("用戶" + user.getName() + "关注了你的问题\"" + questionService.getById(model.getEntityId()).getContent() + "。\"");
         } else if (model.getEntityType() == EntityType.ENTITY_USER) {
-            message.setContent("用户" + user.getName() + "关注了你，http://127.0.0.1:8080/question/" + model.getActorId());
+            message.setContent("用户" + user.getName() + "关注了你。");
         }
 
         messageService.addMessage(message);
